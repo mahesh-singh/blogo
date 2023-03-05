@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -40,14 +41,11 @@ func createPostPages() {
 		"./template/posts/post.tmpl",
 	}
 
-	//indexPostTemplate := []string{
-	//	"./template/base.tmpl",
-	//	"./template/posts/index.tmpl",
-	//}
 	inFolder := "./content/posts/"
 	outFolder := "./public/posts"
 	files, _ := os.ReadDir(inFolder)
 
+	//Generating individual post
 	for _, file := range files {
 		//if filepath.Ext(file.Name()) == ".md" {}
 		markdownFile, _ := os.Open(inFolder + "/" + file.Name())
@@ -56,7 +54,7 @@ func createPostPages() {
 		defer markdownFile.Close()
 
 		// create the html file
-		htmlFilePath := outFolder + "/" + file.Name() + ".html"
+		htmlFilePath := outFolder + "/" + strings.Replace(file.Name(), ".md", "", -1) + ".html"
 		if _, err := os.Stat(filepath.Dir(htmlFilePath)); os.IsNotExist(err) {
 			err := os.MkdirAll(filepath.Dir(htmlFilePath), 0770)
 			if err != nil {
@@ -80,6 +78,31 @@ func createPostPages() {
 			log.Printf("error: %v", err)
 		}
 
+	}
+
+	//Generating post index
+	indexPostTemplate := []string{
+		"./template/base.tmpl",
+		"./template/posts/index.tmpl",
+	}
+
+	htmlFile, _ := os.Create("./public/posts/index.html")
+	files, _ = os.ReadDir("./public/posts")
+
+	htmlListContent := "<ul>"
+	for _, file := range files {
+		if file.Name() == "index.html" {
+			continue
+		}
+		htmlListContent = htmlListContent + fmt.Sprintf("<li><a href='%s'/>%s</li>", file.Name(), strings.Replace(file.Name(), "-", " ", -1))
+	}
+	htmlListContent = htmlListContent + "</ul>"
+
+	d := Data{Content: template.HTML(htmlListContent), Title: "Post list"}
+	templ := template.Must(template.ParseFiles(indexPostTemplate...))
+	err := templ.ExecuteTemplate(htmlFile, "base", d)
+	if err != nil {
+		log.Printf("error: %v", err)
 	}
 }
 
