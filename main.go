@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"html/template"
 	"io"
@@ -11,6 +12,12 @@ import (
 	"strings"
 
 	"github.com/russross/blackfriday"
+)
+
+var (
+	contentDir  string = "./content"
+	publicDir   string = "./public"
+	templateDir string = "./template"
 )
 
 type Post struct {
@@ -30,6 +37,11 @@ type Data struct {
 }
 
 func main() {
+
+	flag.StringVar(&contentDir, "contentDir", contentDir, "markdown content directory")
+	flag.StringVar(&publicDir, "publicDir", publicDir, "public directory where html file generated")
+	flag.StringVar(&templateDir, "templateDir", templateDir, "template directory directory")
+	flag.Parse()
 	createHomePage()
 	createPostPages()
 
@@ -37,12 +49,12 @@ func main() {
 
 func createPostPages() {
 	individualPostTemplate := []string{
-		"./template/base.tmpl",
-		"./template/posts/post.tmpl",
+		filepath.Join(templateDir, "/base.tmpl"),
+		filepath.Join(templateDir, "/posts/post.tmpl"),
 	}
 
-	inFolder := "./content/posts/"
-	outFolder := "./public/posts"
+	inFolder := filepath.Join(contentDir, "/posts/")
+	outFolder := filepath.Join(publicDir, "/posts")
 	files, _ := os.ReadDir(inFolder)
 
 	//Generating individual post
@@ -82,12 +94,12 @@ func createPostPages() {
 
 	//Generating post index
 	indexPostTemplate := []string{
-		"./template/base.tmpl",
-		"./template/posts/index.tmpl",
+		filepath.Join(templateDir, "/base.tmpl"),
+		filepath.Join(templateDir, "/posts/index.tmpl"),
 	}
 
-	htmlFile, _ := os.Create("./public/posts/index.html")
-	files, _ = os.ReadDir("./public/posts")
+	htmlFile, _ := os.Create(filepath.Join(publicDir, "/posts/index.html"))
+	files, _ = os.ReadDir(filepath.Join(publicDir, "/posts"))
 
 	htmlListContent := "<ul>"
 	for _, file := range files {
@@ -108,11 +120,11 @@ func createPostPages() {
 
 func createHomePage() {
 	homeTemplate := []string{
-		"./template/base.tmpl",
-		"./template/index.tmpl",
+		filepath.Join(templateDir, "/base.tmpl"),
+		filepath.Join(templateDir, "/index.tmpl"),
 	}
 	//Rander home page
-	homeContentPath := "./content/index.md"
+	homeContentPath := filepath.Join(contentDir, "/index.md")
 
 	//homePublicFolder := "./public"
 	homeMarkdownFile, _ := os.Open(homeContentPath)
@@ -128,7 +140,7 @@ func createHomePage() {
 	d := Data{Content: template.HTML(content), Title: "Mahesh Home Page"}
 
 	templ := template.Must(template.ParseFiles(homeTemplate...))
-	indexFile, _ := os.Create("./public/index.html")
+	indexFile, _ := os.Create(filepath.Join(publicDir, "/index.html"))
 	defer indexFile.Close()
 	err := templ.ExecuteTemplate(indexFile, "base", d)
 	if err != nil {

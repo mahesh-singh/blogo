@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reliable scalable and maintainable applications.md</title>
+</head>
+<body>
+    <h1>This is a base template</h1>
+    
+<h2>This is main template of individual post page</h2>
+<p>+++
+author = &ldquo;Mahesh Singh&rdquo;
+title = &ldquo;Chapter01 - Reliable Scalable and Maintainable Applications&rdquo;
+date = &ldquo;2021-01-22&rdquo;
+description = &ldquo;Reliable Scalable and Maintainable Applications&rdquo;
+tags = [
+    &ldquo;ddia&rdquo;, &ldquo;notes&rdquo;,
+]
++++</p>
+
+<p>Whenever I read a book, I try to underline things and later try to convert into digital notes. It almost become two phase revision of the book.
+These notes are from Martin Kleppmann&rsquo;s book: Designing Data-Intensive Applications.</p>
+
+<p>Disclaimers:</p>
+
+<ul>
+<li>These notes are not a substitute of the book.</li>
+<li>These notes are from my understanding of the topic and typed manually (Yes I prefer physical book over digital one) . There might be the case when I missed something.
+<br /></li>
+</ul>
+
+<h2>Table of content</h2>
+
+<ul>
+<li>Chapter 01 - Reliable Scalable and Maintainable Applications</li>
+<li><a href="../data-model-and-query-language/">Chapter 02 - Data Model and Query Language</a></li>
+<li>Chapter 03 - Storage and Retrieval (coming soon&hellip;)</li>
+</ul>
+
+<h1>Chapter 01 - Reliable, scalable, and maintainable applications</h1>
+
+<p>Following are the building blocks which use by typical data intensive applications</p>
+
+<ul>
+<li>Store data in database</li>
+<li>Caching data for remembering pre-compute result</li>
+<li>Indexes for faster search</li>
+<li>Messaging for async processing by other applications</li>
+<li>Batch processing for crunching large amount of data in background</li>
+</ul>
+
+<p>In general database, messaging system, caching all store data but they all serves different purpose. There are new systems which again blurring the boundaries like redis which store data on the same time its also provide queuing while Apache Kafka is a messaging queue which provide database like durability guaranty.</p>
+
+<p>Important concerns for most of the software system</p>
+
+<p><strong>Reliability</strong> - System should work as per expected even when it face some kind failures like hardware/software fault, human error etc.</p>
+
+<p><strong>Scalability</strong> - As system grows there should be reasonable way to handle the growth.</p>
+
+<p><strong>Maintainability</strong> -  As system getting old lots of people contribute to the system. As system getting older, adding changes should be productive.</p>
+
+<h2>Reliability</h2>
+
+<blockquote>
+<p>Continue to work correctly, even when things go wrong.</p>
+</blockquote>
+
+<p><strong>Fault</strong> - When things can&rsquo;t work as expected.</p>
+
+<p><strong>Fault tolerance (or resilience)</strong> - When system handle expected faults called fault tolerance.</p>
+
+<p><strong>Failure</strong> - Failure are different from fault, when an entire system stop working that&rsquo;s called failure where fault is a system misbehave in certain condition.</p>
+
+<p>To test system&rsquo;s fault tolerance, deliberately introduce faults in system like randomly killing individual process and check impact on other systems.</p>
+
+<p><strong>Hardware fault</strong>
+- Reduce by adding redundancy in hardware.
+- Use software fault-tolerance techniques or use in addition to hardware redundancy.
+<strong>Software errors</strong>: Software errors normally have cascading effect and error in one system cause error in another system.
+- Measure, monitor and analyze system behavior in production.</p>
+
+<p><strong>Human error</strong>: Configuration error by operators is leading cause of outrage.
+- Design system in a way that minimize opportunity for error.
+- Test, test and test from unit test to integration test to manual testing.
+- Quick and easy recovery from human error like rollback of configuration changes to roll out new code gradually.
+- Set up detail monitoring (performance, error rate). This is also called telemetry.</p>
+
+<h2>Scalability</h2>
+
+<blockquote>
+<p>System&rsquo;s ability to cope with increased load.</p>
+</blockquote>
+
+<p>Scalability means considering questions like
+- &ldquo;If the system grows in a particular way, what are the options for coping with growth&rdquo;
+- &ldquo;How can we add computing resources to handle the additional load?&rdquo;</p>
+
+<h3>Describing load</h3>
+
+<p><strong>Load parameter</strong> Load can be describe with few numbers.</p>
+
+<ul>
+<li>Request per second for web server</li>
+<li>Response time</li>
+<li>Ratio of read to write in DB</li>
+<li>Number of simultaneous active uses in chat room</li>
+<li>Hit rate on a cache<br /></li>
+</ul>
+
+<p>Twitter example:</p>
+
+<ul>
+<li>Post tweet: 4.6k request/second on average, over 12k request/sec at peak</li>
+<li>Home timeline: 300k request/sec</li>
+</ul>
+
+<h3>Describing performance</h3>
+
+<ul>
+<li>When you increase a load parameter and the keep the system resources unchanged, how the performance of your system affected?</li>
+
+<li><p>When you increase the load parameter, how much resources you need to increase if you want to keep performance unchanged?</p></li>
+
+<li><p>Note: Batch processing systems like hadoop you care about <em>throughput</em> (number of record process per second). For web system you care about response time.</p></li>
+</ul>
+
+<p>Note: <strong><em>Latency and response time:</em></strong> Response time is what client see. Latency is the duration that a request is waiting to handle.</p>
+
+<p>Even making same request again and again, you&rsquo;ll get a slightly different response time every time. That&rsquo;s why response time is not a single number but distributed values that you can measure.</p>
+
+<p>Average or mean response time is not a good metrics as it doesn&rsquo;t tell how many users actually experience this delay.</p>
+
+<p><strong>Percentiles:</strong>  If 95th percentile response time is 1.5 sec than means 95 out 100 request take less then 1.5 second and 5 out of 100 request take more than 1.5 seconds.</p>
+
+<p>Ex. Amazon describe requirement of response time of internal services in term of 99.9th percentile though it only affects 1 in 1000 request but customers with the slowest request have are often those customers who have most data and they&rsquo;re the most valuable customers.</p>
+
+<p>Requests could be fast individually but one slow request could slow down all the other requests. It takes just one slow call to make the entire end-user request slow. Tail latency amplification.</p>
+
+<p>Percentiles are often used in SLOs (Service Level Objectives) and SLAs (Service Level Agreements)</p>
+
+<h3>Approach to coping with Load</h3>
+
+<ul>
+<li>Scaling up (vertical scaling)</li>
+<li>Scaling out (horizontal scaling)</li>
+</ul>
+
+<p><em>elastic</em> means they can automatically add computing resource when they detect a load increased. They are useful if load is highly unpredictable.</p>
+
+<p>Manual scaled system are simpler and may have fewer operational surprises.</p>
+
+<p>There is no such thing as a generic, one size fit for all scalable architecture. The problem may be the volume of reads, the volumes of write, the volume of data to store, the complexity of the data, the response time requirements, the access pattern, or usually some mixture of all od these plus many more issues.</p>
+
+<p>Ex. a system design to handle 100,000 request/sec each in 1kb in size, looks very different form a system that is design for 3 request/min each 2 GB in size, even though the two system have the same data throughput.</p>
+
+<h2>Maintainability</h2>
+
+<blockquote>
+<p>Majority of the cost of the system is not in its initial development but ongoing maintenance.</p>
+</blockquote>
+
+<p>Design principle for software systems</p>
+
+<ul>
+<li>Operability: Make it easy for operation team.
+
+<ul>
+<li>Visibility of runtime behavior</li>
+<li>Documentation</li>
+</ul></li>
+<li>Simplicity: Make it simple for new engineer in team.</li>
+<li>Evolvability: Make it easy to make changes in system for future requirement.</li>
+</ul>
+
+
+</body>
+</html>

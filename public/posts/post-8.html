@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>post 8.md</title>
+</head>
+<body>
+    <h1>This is a base template</h1>
+    
+<h2>This is main template of individual post page</h2>
+<hr />
+
+<p>title: &ldquo;Markdown Syntax Guide&rdquo;
+date: &ldquo;2019-03-11&rdquo;
+description: &ldquo;Sample article showcasing basic Markdown syntax and formatting for HTML elements.&rdquo;
+tags: [markdown, css, html, themes]
+categories: [themes, syntax]</p>
+
+<h2>draft: true</h2>
+
+<p>This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.
+<!--more--></p>
+
+<h2>Headings</h2>
+
+<p>The following HTML <code>&lt;h1&gt;</code>—<code>&lt;h6&gt;</code> elements represent six levels of section headings. <code>&lt;h1&gt;</code> is the highest section level while <code>&lt;h6&gt;</code> is the lowest.</p>
+
+<h1>H1</h1>
+
+<h2>H2</h2>
+
+<h3>H3</h3>
+
+<h4>H4</h4>
+
+<h5>H5</h5>
+
+<h6>H6</h6>
+
+<h2>Paragraph</h2>
+
+<p>Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.</p>
+
+<p>Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.</p>
+
+<h2>Blockquotes</h2>
+
+<p>The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a <code>footer</code> or <code>cite</code> element, and optionally with in-line changes such as annotations and abbreviations.</p>
+
+<h4>Blockquote without attribution</h4>
+
+<blockquote>
+<p>Tiam, ad mint andaepu dandae nostion secatur sequo quae.
+<strong>Note</strong> that you can use <em>Markdown syntax</em> within a blockquote.</p>
+</blockquote>
+
+<h4>Blockquote with attribution</h4>
+
+<blockquote>
+<p>Don&rsquo;t communicate by sharing memory, share memory by communicating.</p>
+— <cite>Rob Pike[^1]</cite></p>
+</blockquote>
+
+<p>[^1]: The above quote is excerpted from Rob Pike&rsquo;s <a href="https://www.youtube.com/watch?v=PAAkCSZUG1c">talk</a> during Gopherfest, November 18, 2015.</p>
+
+<h2>Tables</h2>
+
+<p>Tables aren&rsquo;t part of the core Markdown spec, but Hugo supports supports them out-of-the-box.</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Age</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Bob</td>
+<td>27</td>
+</tr>
+
+<tr>
+<td>Alice</td>
+<td>23</td>
+</tr>
+</tbody>
+</table>
+
+<h4>Inline Markdown within tables</h4>
+
+<table>
+<thead>
+<tr>
+<th>Inline&nbsp;&nbsp;&nbsp;</th>
+<th>Markdown&nbsp;&nbsp;&nbsp;</th>
+<th>In&nbsp;&nbsp;&nbsp;</th>
+<th>Table</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><em>italics</em></td>
+<td><strong>bold</strong></td>
+<td><del>strikethrough</del>&nbsp;&nbsp;&nbsp;</td>
+<td><code>code</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2>Code Blocks</h2>
+
+<h4>Code block with backticks</h4>
+
+<pre><code>html
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Example HTML5 Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Test&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h4>Code block indented with four spaces</h4>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Example HTML5 Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Test&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h4>Code block with Hugo&rsquo;s internal highlight shortcode</h4>
+
+<p>{{&lt; highlight html &gt;}}
+&lt;!DOCTYPE html&gt;
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example HTML5 Document</title>
+</head>
+<body>
+  <p>Test</p>
+</body>
+</html>
+{{&lt; /highlight &gt;}}</p>
+
+<h2>List Types</h2>
+
+<h4>Ordered List</h4>
+
+<ol>
+<li>First item</li>
+<li>Second item</li>
+<li>Third item</li>
+</ol>
+
+<h4>Unordered List</h4>
+
+<ul>
+<li>List item</li>
+<li>Another item</li>
+<li>And another item</li>
+</ul>
+
+<h4>Nested list</h4>
+
+<ul>
+<li>Item</li>
+<li>First Sub-item</li>
+<li>Second Sub-item</li>
+</ul>
+
+<h2>Other Elements — abbr, sub, sup, kbd, mark</h2>
+
+<p><abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.</p>
+
+<p>H<sub>2</sub>O</p>
+
+<p>X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup></p>
+
+<p>Press <kbd><kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>Delete</kbd></kbd> to end the session.</p>
+
+<p>Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.</p>
+
+
+</body>
+</html>
